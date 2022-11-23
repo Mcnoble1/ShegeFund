@@ -1,0 +1,13 @@
+
+.textarea{
+    width: inherit;
+    height: 150px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.rsvp {
+  width: inherit;
+}
