@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { loadStdlib } from '@reach-sh/stdlib';
 import { account } from "../../views/utils"
 
-
 // reactstrap components
 import {
   Button,
@@ -51,13 +50,13 @@ export default function TopNavbar(props) {
     setCollapseOut("");
   };
 
-  const stdlib = loadStdlib('ALGO');
+  const stdlib = loadStdlib();
 
     const [accountBal, setAccountBal] = useState(0);
     const [accountAddress, setAccountAddress] = useState('Connect Wallet');
 
 
-    const connectWithMyAlgoWallet  = async () =>{
+    const connectWallet  = async () =>{
         try{
             await getAccount()
             await getBalance()
@@ -70,7 +69,7 @@ export default function TopNavbar(props) {
     const getAccount = async () => {
         try{
           const acc = await account()
-            setAccountAddress(acc.networkAccount.addr)
+            setAccountAddress(acc.getAddress())
         }catch(err){
             console.log(err)
         }
@@ -88,12 +87,11 @@ export default function TopNavbar(props) {
     }
 
   return (
-    <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
+    <Navbar className={"fixed-top" + color} color-on-scroll="100" expand="lg">
       <Container>
         <div className="navbar-translate">
           <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-            <span>TIK• </span>
-            RSVP Platform
+            <span>ShegeFund• </span>
           </NavbarBrand>
           <button
             aria-expanded={collapseOpen}
@@ -120,7 +118,7 @@ export default function TopNavbar(props) {
                 color="primary"
                 target="_blank"
                 href=""
-                onClick={connectWithMyAlgoWallet}
+                onClick={connectWallet}
               >
                 <i className="tim-icons icon-spaceship" /> {accountAddress}  {accountBal}
                  
@@ -145,7 +143,7 @@ export default function TopNavbar(props) {
                 color="primary"
                 target="_blank"
                 href=""
-                onClick={connectWithMyAlgoWallet}
+                onClick={connectWallet}
               >
                 <i className="tim-icons icon-spaceship" /> {accountAddress}  {accountBal}
               </Button>

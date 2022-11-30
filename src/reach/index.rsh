@@ -1,3 +1,8 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 'reach 0.1';
 // 'use strict';
 
@@ -39,21 +44,22 @@ const FundInfo = Object({
 })
 
 export const main = Reach.App(() => {
-
+    setOptions({ untrustworthyMaps: true });
     // The Admin interact interface for managing funds
     const Fundraiser = Participant('Fundraiser', {
         createFundraiser: FundInfo,
         launched: Fun([Contract], Null),
         seeDonation: Fun([Address, UInt], Null),
         thankDonor: Fun([Address], Null),
-        withdraw: Fun([], Null),
-        convert: Fun([], Null),
-        deadlineReached: Bool,
-        goalReached: Bool,
+        // withdraw: Fun([], Null),
+        // convert: Fun([], Null),
+        // deadlineReached: Bool,
+        // goalReached: Bool,
     });
 
     // The Donor interact interface for making donations
     const Donor = API('Donor', {
+        // attach: Fun([], Null),
         donate: Fun([UInt], Null),
         // amountDonated: Fun([], UInt),
     });
@@ -71,13 +77,13 @@ export const main = Reach.App(() => {
     })
     Fundraiser.publish(fundInfo);
     const {target, deadline, creator, title, story, picture, video} = fundInfo;
+    Info.details.set(fundInfo);
 
-    enforce(thisConsensusTime() < deadline, 'too late');
+    // enforce(thisConsensusTime() < deadline, 'too late');
     // This contract goes onto a QR code for the raise info
     Fundraiser.interact.launched(getContract())
 
-    Info.details.set(fundInfo);
-    const Donors = new Map(Address, UInt);
+    const Donors = new Map(UInt);
 
     // Donors donating to the fundraiser using a parallel reduce for the process
     const [ done, totalDonations, howMany ] = parallelReduce([ false, 0, 0 ])
@@ -85,12 +91,18 @@ export const main = Reach.App(() => {
         .invariant(balance() == totalDonations, "balance accurate")
         .while(totalDonations < target)
         // .paySpec([amt])
+        // .api_(Donor.attach, () => {
+        //     return [ (ret) => {
+        //         ret(null);
+        //         return [ false, totalDonations , howMany ];
+        //     }];
+        // })
         .api_(Donor.donate, (amt) => {
             check(!done, "Fundraising started");
             check(amt > 0, "Must donate more than 0");
             return [amt, (ret) => {
                 enforce(thisConsensusTime() < deadline, "donation period over"); 
-                Donors[this] = amt;
+                 Donors[this] = amt;
                 ret(null);
                 Fundraiser.interact.seeDonation(this, amt);
                 Fundraiser.interact.thankDonor(this);

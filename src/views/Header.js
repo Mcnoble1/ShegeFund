@@ -1,7 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // react plugin used to create datetimepicker
-import CreateEvent from "./CreateEvent";
-import MakeRsvp from "./MakeRsvp";
 import HeroImage from "../assets/img/cercuri.png";
 
 
@@ -9,6 +8,7 @@ import HeroImage from "../assets/img/cercuri.png";
 import {
   Row,
   Col,
+  Button,
 } from "reactstrap";
 
 export default function Header() {
@@ -49,15 +49,20 @@ export default function Header() {
             <Row className="row-grid justify-content-between align-items-center text-left">
               <Col lg="6" md="6">
                 <h1 className="text-white">
-                  TIK <br />
+                  ShegeFund <br />
                   <span className="text-white"></span>
                 </h1>
                 <h3 className="text-white mb-3">
-                  Decentralized Reservation Platform for Events
+                  Decentralized Fundraising Platform
+                  That our Shege may be well Funded
                 </h3>
                 <div className="btn-wrapper pt-3">
-                  <CreateEvent />
-                  <MakeRsvp />
+                  <Button className="btn-wrapper btn-simple" color="success"  to="/createEvent" tag={Link}>
+                    Create Fundraiser
+                  </Button>
+                  <Button className="btn-wrapper btn-simple" color="primary"  to="/makeRsvp" tag={Link}>
+                    Fund a Cause
+                  </Button>
                 </div>
               </Col>
               <Col lg="4" md="5">
