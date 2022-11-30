@@ -17,32 +17,31 @@
 */
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import "assets/css/nucleo-icons.css";
 import "assets/scss/blk-design-system-react.scss";
 import "assets/demo/demo.css";
 
-import Index from "views/Index.js";
+import LandingPage from "views/Index.js";
 import Dashboard from "views/Dashboard.js";
 import Rsvp from "views/Rsvp.js";
+import CreateEvent from "views/CreateEvent.js";
+import MakeRsvp from "views/MakeRsvp";
 // import LandingPage from "views/LandingPage.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <BrowserRouter>
-    <Switch>
-      <Route path="/home" render={(props) => <Index {...props} />} />
-      <Route
-        path="/rsvp"
-        render={(props) => <Rsvp {...props} />}
-      />
-      <Route
-        path="/dashboard"
-        render={(props) => <Dashboard {...props} />}
-      />
-      <Redirect from="/" to="/home" />
-    </Switch>
+    <Routes>
+      <Route path="/home" element={<LandingPage />}></Route>
+      <Route path="/donate" element={<Rsvp />}></Route>
+      <Route path="/dashboard" element={<Dashboard/>}></Route>
+      <Route path="/createEvent" element={<CreateEvent />}></Route>
+      <Route path="/makeRsvp" element={<MakeRsvp />}></Route>
+      {/* <Navigate from="/" to="/home" /> */}
+      <Route path="/" element={<Navigate replace to="/home" />} />
+    </Routes>
   </BrowserRouter>
 );

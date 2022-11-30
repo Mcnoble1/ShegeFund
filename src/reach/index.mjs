@@ -1,6 +1,15 @@
 import { loadStdlib, ask } from '@reach-sh/stdlib';
 import * as backend from './build/index.main.mjs';
-const stdlib = loadStdlib(process.env);
+
+const stdlib = loadStdlib();
+
+stdlib.setWalletFallback(stdlib.walletFallback({
+  providerEnv: {
+    ETH_NODE_URI: 'https://matic-mumbai.chainstacklabs.com',
+    // ETH_NODE_URI: 'https://empty-white-moon.matic-testnet.discover.quiknode.pro/90709286830e40dee035bab0a479bbf836af753d/',
+  }
+}));
+
 
 let done = false;
 const Funding = [];
@@ -35,7 +44,7 @@ let fundInfo = null;
       (x => x)
   );
 
-  fundInfo = { target, deadline, story, picture, video };
+  fundInfo = { target, deadline, creator, title, story, picture, video };
 
 const isFundraiser = await ask.ask(
   'Are you a Fundraiser',
@@ -48,8 +57,12 @@ console.log(`Welcome to the ShegeFund as ${who}`);
 
 // console.log(`Welcome to the Funding Platform`);
 
-const accFundraiser = await stdlib.newTestAccount(stdlib.parseCurrency(1000));
+const accFundraiser = await stdlib.newAccountFromMnemonic('advice jewel celery goddess explain color thumb length uphold confirm resource tribe');
+accFundraiser.setDebugLabel('Fundraiser');
 
+// const accFundraiser = await stdlib.newTestAccount(stdlib.parseCurrency(1000));
+// const myGasLimit = 5000000;
+// accFundraiser.setGasLimit(myGasLimit);
 const getBalance = async () => stdlib.formatCurrency(await stdlib.balanceOf(accFundraiser)); // get the balance
 console.log(`Your balance before is ${await getBalance()}`); 
 
@@ -60,17 +73,19 @@ const startFunding = async () => {
     const runFunding = async(who) => {
       // const { target, deadline, story, picture, video } = fundInfo;
   
-      const acc = await stdlib.newTestAccount(stdlib.parseCurrency(1000)); 
-      acc.setDebugLabel(); // set the debug label 
+      // const acc = await stdlib.newTestAccount(stdlib.parseCurrency(1000));
+
+      const acc = await stdlib.newAccountFromMnemonic('advice jewel celery goddess explain color thumb length uphold confirm resource tribe');
+      acc.setDebugLabel('Donor'); // set the debug label 
       Funding.push([who, acc]);
       const info = await ask.ask(
                  'Please paste the contract information: ',
-                 JSON.parse
+                  (x => x)
              );
       const ctc = acc.contract(backend, info);
       const getBalance = async () => stdlib.formatCurrency(await stdlib.balanceOf(acc)); // get the balance
 
-      try {
+      // try {
         const { target } = await ctc.unsafeViews.Info.details();
         const { deadline } = await ctc.unsafeViews.Info.details();
         const { creator } = await ctc.unsafeViews.Info.details();
@@ -86,11 +101,12 @@ const startFunding = async () => {
                     title: ${title}
                     story: ${story}
                     picture: ${picture}
-                    video: ${video}` 
+                    video: ${video}
+                    ` 
                   );
-      } catch (e) {
-        console.log(`${who} failed to make a donation because target reached.`); 
-      }
+      // } catch (e) {
+      //   console.log(`${who} failed to make a donation because target reached.`); 
+      // }
       
       const amount = await ask.ask(
         'How much would you like to donate?',
@@ -98,11 +114,14 @@ const startFunding = async () => {
       );  
       
       try {
+        const myGasLimit = 10000000;
+        acc.setGasLimit(myGasLimit); 
       await ctc.apis.Donor.donate(amount); 
         console.log(`${who} donated ${stdlib.formatCurrency(amount)} ${stdlib.standardUnit} to the campaign`);
         console.log(`Your balance after donation is ${await getBalance()}`);
       } catch (e) {
-        console.log(`${who} failed to make a donation because target reached.`); 
+        console.log(e);
+        // console.log(`${who} failed to make a donation because target reached.`); 
       };
       console.log(`${who} balance after is ${await getBalance()}`); // log the balance
   
@@ -116,12 +135,13 @@ const startFunding = async () => {
       }
   };
   
-  
-  const ctcFundraiser = accFundraiser.contract(backend);
+  try {
+    const ctcFundraiser = accFundraiser.contract(backend);
     ctcFundraiser.getInfo().then((info) => {
         console.log(`Your contract is deployed as = ${JSON.stringify(info)}`);
         // ctcinfo = info;
       });
+
   await ctcFundraiser.participants.Fundraiser({
           // implement Fundraiser's interact object here
     ...stdlib.hasRandom,
@@ -138,7 +158,9 @@ const startFunding = async () => {
       console.log(`${stdlib.formatAddress(who)} donated ${stdlib.formatCurrency(amount)} ${stdlib.standardUnit} to the campaign`);
     },
   });
-  
+  } catch (e) {
+    console.log(e);
+  }
   
   
   for (const [name, acc] of Funding) {
