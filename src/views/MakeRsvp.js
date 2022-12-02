@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import Navbar from "components/Navbar/Navbar.js";
-import giphy from "../assets/img/giphy (3).gif";
+import Navbar from "components/Navbar/Nav.js";
+import giphy from "../assets/img/deploy.gif";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UncontrolledAlert } from "reactstrap";
@@ -57,7 +57,6 @@ export default function MakeRsvp(props) {
     const { title } = await ctc.unsafeViews.Info.details();
     const { story } = await ctc.unsafeViews.Info.details();
     const { picture } = await ctc.unsafeViews.Info.details();
-    const { video } = await ctc.unsafeViews.Info.details();
 
     localStorage.setItem('target', JSON.stringify(stdlib.formatCurrency(stdlib.parseCurrency(target))));
     localStorage.setItem('deadline', JSON.stringify(stdlib.formatCurrency(stdlib.parseCurrency(deadline))));
@@ -65,7 +64,6 @@ export default function MakeRsvp(props) {
     localStorage.setItem('title', JSON.stringify(title));
     localStorage.setItem('story', JSON.stringify(story));
     localStorage.setItem('picture', JSON.stringify(picture));
-    localStorage.setItem('video', JSON.stringify(video));
     localStorage.setItem('info', JSON.stringify(info));
 
       navigate("/donate")

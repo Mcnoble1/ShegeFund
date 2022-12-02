@@ -1,5 +1,8 @@
 import React from "react";
-// react plugin used to create datetimepicker
+import cry from "../assets/img/cry.png";
+import donate from "../assets/img/donate.png";
+import circle from "../assets/img/circle.png";
+
 
 // reactstrap components
 import {
@@ -20,41 +23,41 @@ export default function Benefit() {
                 <Row className="row-grid justify-content-center">
                   <Col lg="3">
                     <div className="info">
-                      <div className="icon icon-primary">
-                        <i className="tim-icons icon-money-coins" />
+                      <div className="">
+                        {/* <i className="tim-icons icon-money-coins" /> */}
+                        <img alt="..." className="img-fluid" height="100px" src={cry}/>
                       </div>
-                      <h4 className="info-title">Create Events</h4>
+                      <h3 className="info-title">Create Funding Cause</h3>
                       <hr className="line-primary" />
-                      <p>
-                        Connect your wallet to create events and share 
-                        your event information with the public to RSVP 
-                        for your event.
-                      </p>
+                      <h4>
+                        Connect your wallet to create a cause and share 
+                        your contract information with the public to make donations
+                      </h4>
                     </div>
                   </Col>
                   <Col lg="3">
                     <div className="info">
                       <div className="icon icon-warning">
-                        <i className="tim-icons icon-chart-pie-36" />
+                      <img alt="..." className="img-fluid" src={donate}/>
                       </div>
-                      <h4 className="info-title">RSVP for Events</h4>
+                      <h3 className="info-title">Donate to a Cause</h3>
                       <hr className="line-warning" />
-                      <p>
-                        RSVP for events you are interested in.
-                        Paste the event information to make your reservations.
-                      </p>
+                      <h4>
+                        Donate to causes that you are interested in.
+                        Paste the event information to make your donation.
+                      </h4>
                     </div>
                   </Col>
                   <Col lg="3">
                     <div className="info">
                       <div className="icon icon-success">
-                        <i className="tim-icons icon-single-02" />
+                      <img alt="..." className="img-fluid" src={circle}/>
                       </div>
-                      <h4 className="info-title">Check-in to Events</h4>
+                      <h3 className="info-title">Saving Circle (AJO)</h3>
                       <hr className="line-success" />
-                      <p>
-                        Check-in to events you are attending and get your rewards.
-                      </p>
+                      <h4>
+                        Create and join automated saving circles with your friends (coming soon).
+                      </h4>
                     </div>
                   </Col>
                 </Row>

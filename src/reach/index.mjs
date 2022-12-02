@@ -6,7 +6,6 @@ const stdlib = loadStdlib();
 stdlib.setWalletFallback(stdlib.walletFallback({
   providerEnv: {
     ETH_NODE_URI: 'https://matic-mumbai.chainstacklabs.com',
-    // ETH_NODE_URI: 'https://empty-white-moon.matic-testnet.discover.quiknode.pro/90709286830e40dee035bab0a479bbf836af753d/',
   }
 }));
 
@@ -39,12 +38,8 @@ let fundInfo = null;
     'Attach your shege picture',
     (x => x)
   );
-  const video = await ask.ask(
-      'Upload your shege video',
-      (x => x)
-  );
 
-  fundInfo = { target, deadline, creator, title, story, picture, video };
+  fundInfo = { target, deadline, creator, title, story, picture };
 
 const isFundraiser = await ask.ask(
   'Are you a Fundraiser',
@@ -71,7 +66,7 @@ console.log(`Creating the Fundraising Campaign`);
 
 const startFunding = async () => {
     const runFunding = async(who) => {
-      // const { target, deadline, story, picture, video } = fundInfo;
+      // const { target, deadline, story, picture } = fundInfo;
   
       // const acc = await stdlib.newTestAccount(stdlib.parseCurrency(1000));
 
@@ -92,7 +87,6 @@ const startFunding = async () => {
         const { title } = await ctc.unsafeViews.Info.details();
         const { story } = await ctc.unsafeViews.Info.details();
         const { picture } = await ctc.unsafeViews.Info.details();
-        const { video } = await ctc.unsafeViews.Info.details();
   
         console.log(`FundRaise Details:
                     target: ${stdlib.formatCurrency(target)} ${stdlib.standardUnit}
@@ -101,7 +95,6 @@ const startFunding = async () => {
                     title: ${title}
                     story: ${story}
                     picture: ${picture}
-                    video: ${video}
                     ` 
                   );
       // } catch (e) {

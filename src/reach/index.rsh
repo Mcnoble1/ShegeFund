@@ -6,42 +6,15 @@
 'reach 0.1';
 // 'use strict';
 
-// 1. Start your fundraiser
-// Set your fundraiser goal
-// Set your fundraiser deadline
-// Tell your story and how it'll make an impact
-// Publish your fundraiser
-// Add a picture or video
-// Watch a video tutorial on how shegeFund Works
-
-//  Fundraise as a group
-
-//  campaigns where the funds are refunds if the campaign fails or the fund goal isn't met  
-
-
-// 2. Share with friends
-// Send emails
-// Send text messages
-// Share on social media
-
-// 3. Manage donations
-// Accept donations
-// Thank donors
-// Withdraw funds
-// Convert to fiat
-
-// Donor
-// Donates to a fundraiser
-
 const FundInfo = Object({
     target: UInt,
     deadline: UInt,
     creator: Bytes(64),
     title: Bytes(64),
     story: Bytes(64),
-    picture: Bytes(64),
-    video: Bytes(64),
+    picture: Bytes(256),
 })
+
 
 export const main = Reach.App(() => {
     setOptions({ untrustworthyMaps: true });
@@ -51,17 +24,16 @@ export const main = Reach.App(() => {
         launched: Fun([Contract], Null),
         seeDonation: Fun([Address, UInt], Null),
         thankDonor: Fun([Address], Null),
-        // withdraw: Fun([], Null),
-        // convert: Fun([], Null),
-        // deadlineReached: Bool,
-        // goalReached: Bool,
+        platformAddr: Address,
     });
+
+    // const Platform = Participant('Platform', {
+    //     addr: Address,
+    // });
 
     // The Donor interact interface for making donations
     const Donor = API('Donor', {
-        // attach: Fun([], Null),
         donate: Fun([UInt], Null),
-        // amountDonated: Fun([], UInt),
     });
 
     // View for showing the fundraiser details in the Frontend
@@ -73,10 +45,11 @@ export const main = Reach.App(() => {
 
     // Fundraiser creating, publishing the fundraiser details and deploying the contract
     Fundraiser.only(() => {
+        const platformAddress = declassify(interact.platformAddr);
         const fundInfo = declassify(interact.createFundraiser);
     })
-    Fundraiser.publish(fundInfo);
-    const {target, deadline, creator, title, story, picture, video} = fundInfo;
+    Fundraiser.publish(platformAddress, fundInfo);
+    const {target, deadline, creator, title, story, picture} = fundInfo;
     Info.details.set(fundInfo);
 
     // enforce(thisConsensusTime() < deadline, 'too late');
@@ -88,16 +61,10 @@ export const main = Reach.App(() => {
     // Donors donating to the fundraiser using a parallel reduce for the process
     const [ done, totalDonations, howMany ] = parallelReduce([ false, 0, 0 ])
         // .invariant(Donors.size() == howMany, "howMany accurate")
-        .invariant(balance() == totalDonations, "balance accurate")
+        .invariant(balance() >= 0, "balance accurate")
         .while(totalDonations < target)
-        // .paySpec([amt])
-        // .api_(Donor.attach, () => {
-        //     return [ (ret) => {
-        //         ret(null);
-        //         return [ false, totalDonations , howMany ];
-        //     }];
-        // })
         .api_(Donor.donate, (amt) => {
+            const platformFee = amt * 5/100;
             check(!done, "Fundraising started");
             check(amt > 0, "Must donate more than 0");
             return [amt, (ret) => {
@@ -106,13 +73,10 @@ export const main = Reach.App(() => {
                 ret(null);
                 Fundraiser.interact.seeDonation(this, amt);
                 Fundraiser.interact.thankDonor(this);
+                transfer(platformFee).to(platformAddress);
                 return [ false, totalDonations + amt, howMany + 1 ];
             }];
         });
-    // Fundraiser withdrawing funds from the fundraiser
-    // Fundraiser.interact.withdraw();
-    // Fundraiser converting funds to fiat
-    // Fundraiser.interact.convert();
 
     transfer(balance()).to(Fundraiser);
 
