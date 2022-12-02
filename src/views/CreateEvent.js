@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import "./textarea.css";
-import giphy from "../assets/img/giphy (2).gif";
+import giphy from "../assets/img/deploy.gif";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Navbar from "components/Navbar/Navbar.js";
+import Navbar from "components/Navbar/Nav.js";
 // react plugin used to create datetimepicker
 // import ReactDatetime from "react-datetime";
 import { UncontrolledAlert } from "reactstrap";
@@ -28,12 +28,14 @@ const stdlib = loadStdlib();
 
 
 export default function CreateEvent(props) {
+
+    const platformAddress = "0xA3113a97DBb1FEaD4E1810583F00022f3b1F35c4";
+
     const { handleSubmit } = useForm();
     const navigate = useNavigate();
 
     const [donors, setDonors] = useState([]);
     const [address, setAddress] = useState("")
-    const [ctcInfoStr, setCtcInfoStr] = useState("")
 
     const [target, setTarget] = useState("");
     const [deadline, setDeadline] = useState(1);
@@ -41,25 +43,42 @@ export default function CreateEvent(props) {
     const [title, setTitle] = useState("");
     const [story, setStory] = useState("");
     const [picture, setPicture] = useState("")
-    const [video, setVideo] = useState("")
 
     const [miniModal1, setMiniModal1] = React.useState(false);
     const [miniModal2, setMiniModal2] = React.useState(false);
 
-    // const target = stdlib.parseCurrency(targets);
-    let details;
+    const imageUpload = (e) => {
+      const file = e.target.files[0];
+      getBase64(file).then(base64 => {
+        localStorage["fileBase64"] = base64;
+        console.debug("file stored",base64);
+        // setPicture(base64);
+      });
+  };
 
-    details = {target, deadline, creator, title, story, picture, video};
+  const getBase64 = (file) => {
+    return new Promise((resolve,reject) => {
+       const reader = new FileReader();
+       reader.onload = () => resolve(reader.result);
+       reader.onerror = error => reject(error);
+       reader.readAsDataURL(file);
+    });
+  }
+
+  let details;
+
+    details = {target, deadline, creator, title, story, picture};
 
     async function deploy() {
-      
+
+      localStorage.setItem('donors', JSON.stringify());
+      localStorage.setItem('amount', JSON.stringify());
       localStorage.setItem('target', JSON.stringify(target));
       localStorage.setItem('deadline', JSON.stringify(deadline));
       localStorage.setItem('creator', JSON.stringify(creator));
       localStorage.setItem('title', JSON.stringify(title));
       localStorage.setItem('story', JSON.stringify(story));
-      localStorage.setItem('picture', JSON.stringify(picture));
-      localStorage.setItem('video', JSON.stringify(video));
+      // localStorage.setItem('picture', picture);
 
       try{
         const acc = await account();
@@ -67,6 +86,7 @@ export default function CreateEvent(props) {
         setMiniModal2(true);
         const interact = {
           deadline: { ETH: 10, ALGO: 100, CFX: 1000 }[stdlib.connector],
+          platformAddr: platformAddress,
           createFundraiser: details,
 
           launched: (contract) => {
@@ -74,8 +94,8 @@ export default function CreateEvent(props) {
           },
           seeDonation: (who, amt) => {
             console.log(`${who} donated ${stdlib.formatCurrency(amt)}`);
-            console.log(donors);
-            localStorage.setItem('donors', JSON.stringify(donors));
+            localStorage.setItem('donors', JSON.stringify(who));
+            localStorage.setItem('amount', JSON.stringify(stdlib.formatCurrency(amt)));
 
             setAddress(stdlib.formatAddress(who));
             setDonors(donors => [...donors, stdlib.formatAddress(who)]); 
@@ -87,6 +107,8 @@ export default function CreateEvent(props) {
 
         backend.Fundraiser(ctc, interact);
         const ctcInfoStr = JSON.stringify(await ctc.getInfo(), null, 2);
+        // let ctcBalance = stdlib.balance();
+        // console.log(ctcBalance);
         localStorage.setItem('info', JSON.stringify(ctcInfoStr));
         navigate("/dashboard");
 
@@ -168,24 +190,13 @@ export default function CreateEvent(props) {
                       </Row>
                       <Row>
                         <Col md="12">
-                          <FormGroup>
+                          {/* <FormGroup> */}
                             <label>Picture</label>
-                            <Input placeholder="Upload fund picture" type="text"
+                            <Input  type="file"
                             required
-                            onChange={(e) => setPicture(e.target.value)}
-                             />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="12">
-                          <FormGroup>
-                            <label>Video</label>
-                            <Input placeholder="Upload fund video" type="text"
-                            required
-                            onChange={(e) => setVideo(e.target.value)}
-                             />
-                          </FormGroup>
+                            onChange={imageUpload}
+                             /> 
+                          {/* </FormGroup> */}
                         </Col>
                       </Row>
                       <Button

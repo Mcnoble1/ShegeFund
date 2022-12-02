@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import Navbar from "components/Navbar/Navbar.js";
+import Navbar from "components/Navbar/Nav.js";
 import { useForm } from "react-hook-form";
-import giphy from "../assets/img/giphy (6).gif";
+import giphy from "../assets/img/donate.gif";
+import tear from "../assets/img/cry.png";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { UncontrolledAlert } from "reactstrap";
 import {loadStdlib} from '@reach-sh/stdlib';
 import * as backend from '../reach/build/index.main.mjs';
@@ -50,13 +50,14 @@ export default function ProfilePage(props) {
       try { 
         const acc = await account();
         const ctc = acc.contract(backend, info);  
+        setMiniModal1(false);
         setMiniModal(true);
 
         const myGasLimit = 7000000;
         acc.setGasLimit(myGasLimit);  
 
        await ctc.apis.Donor.donate(stdlib.parseCurrency(amount));
-       console.log(`You donated 1 ${stdlib.standardUnit} to the campaign`);
+       console.log(ctc);
         setMiniModal(false);
        setMiniModal1(false);
        setMiniModal2(true);
@@ -64,6 +65,7 @@ export default function ProfilePage(props) {
 
       } catch (e) {
         console.log(e);
+        setMiniModal(false);
         setMiniModal3(true);
       }
 
@@ -105,8 +107,9 @@ export default function ProfilePage(props) {
                         <ListGroupItem>Shege Story: {JSON.parse(localStorage.getItem('story'))}</ListGroupItem>
                         <ListGroupItem>Deadline: {JSON.parse(localStorage.getItem('deadline'))}</ListGroupItem>
                         <ListGroupItem>Creator: {JSON.parse(localStorage.getItem('creator'))}</ListGroupItem>
-                        <ListGroupItem>Picture: {JSON.parse(localStorage.getItem('picture'))}</ListGroupItem>
-                        <ListGroupItem>Video: {JSON.parse(localStorage.getItem('video'))}</ListGroupItem>
+                        <ListGroupItem>Picture
+                        <img src={localStorage.getItem('picture')} alt="" className="img-raised" />
+                        </ListGroupItem>
                       </ListGroup>
                     </Row>
                   </CardBody>
@@ -166,7 +169,7 @@ export default function ProfilePage(props) {
               <span data-notify="icon" className="tim-icons icon-trophy" />
               <span>
                 <b>Cha-Ching 🔥🎉💸🤑🍾 </b>
-                You have successfully donated for {JSON.parse(localStorage.getItem('title'))} campaign. 
+                You have successfully donated {amount} MATIC to the {JSON.parse(localStorage.getItem('title'))} campaign. 
                 Thanks for saving a bro from the streets.
               </span>
               </UncontrolledAlert>
@@ -179,10 +182,11 @@ export default function ProfilePage(props) {
           >
              <UncontrolledAlert className="alert-with-icon" color="">
               <span data-notify="icon" className="tim-icons icon-" />
-              <h3>NGMI! 😢😢</h3>
-              <span>
+              {/* <h3>NGMI! 😢😢</h3> */}
+              <img src={tear} alt="sad face" />
+              <h3>
                Can't make a donation because fund target reached 
-              </span>
+              </h3>
             </UncontrolledAlert>
           </Modal>
           </Container>

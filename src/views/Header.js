@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // react plugin used to create datetimepicker
-import HeroImage from "../assets/img/cercuri.png";
+import HeroImage from "../assets/img/tear.png";
 
 
 // reactstrap components
@@ -65,7 +65,7 @@ export default function Header() {
                   </Button>
                 </div>
               </Col>
-              <Col lg="4" md="5">
+              <Col lg="5" md="5">
                 <img
                   alt="..."
                   className="img-fluid"

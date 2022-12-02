@@ -1,13 +1,11 @@
 import React, {useState} from "react";
 import "./textarea.css";
 import { useNavigate } from "react-router-dom";
-import Navbar from "components/Navbar/Navbar.js";
+import Navbar from "components/Navbar/Nav.js";
 // react plugin used to create datetimepicker
 // import ReactDatetime from "react-datetime";
 import { UncontrolledAlert } from "reactstrap";
 import {loadStdlib} from '@reach-sh/stdlib';
-import * as backend from '../reach/build/index.main.mjs';
-import { account } from "./utils"
 // reactstrap components
 import {
   Row,
@@ -16,6 +14,7 @@ import {
   ListGroupItem,
   CardFooter,
   Col,
+  Button,
   Card,
   CardBody,
 } from "reactstrap";
@@ -24,30 +23,32 @@ const stdlib = loadStdlib();
 
 
 export default function Dashboard(props) {
-  // onload();
 
-  let donors = [];
+    const [details, setDetails] = useState("See Amount Raised"); 
 
-  donors.push(JSON.parse(localStorage.getItem('donor')))
-  
+    const raise = async () => {
+        const ctcInfoStr = localStorage.getItem('ctcInfo');
+        const ctcInfo = JSON.parse(ctcInfoStr);
+        const ctc = stdlib.parseCurrency(ctcInfo);
+        const amt = await ctc.balance();
+        setDetails(amt);
+    };
+        
 
     const sleep = (milliseconds) => new Promise(resolve => setTimeout(resolve, milliseconds));
-
-    // const target = stdlib.parseCurrency(targets);
-
-
     
-    const donations = event =>  {
-      for ( const donor of donors) {
-      event.currentTarget.insertAdjacentHTML("afterend", `<p className="rsvp">${donor} made a donation.</p>`)  
-      sleep(5000);
-      event.currentTarget.nextElement.remove() 
-     `<p className="rsvp">See Reservations</p>`
-      }
+    const donations = async (event) =>  {
+      let donor = JSON.parse(localStorage.getItem('donors'));
+      let amt = JSON.parse(localStorage.getItem('amount'));
+      event.currentTarget.insertAdjacentHTML("afterend", `<h4 className="rsvp">${donor} made a donation of ${amt} MATIC.</h4>`)  
+      await sleep(5000);
     }
 
+    const info = JSON.parse(localStorage.getItem('info'));
+    const retInfo = info.replaceAll('"', '');
+
       async function copyToClipboard(button) {
-        navigator.clipboard.writeText(JSON.parse(localStorage.getItem('info')));
+        navigator.clipboard.writeText(retInfo);
         const origInnerHTML = button.innerHTML;
         button.innerHTML = 'Copied!';
         button.disabled = true;
@@ -55,13 +56,6 @@ export default function Dashboard(props) {
         button.innerHTML = origInnerHTML;
         button.disabled = false;
       }
-      
-      // async function onload() {
-      //   const acc = await account();  
-      // }
-      
-
-     
 
   return (  
     <>
@@ -82,6 +76,15 @@ export default function Dashboard(props) {
                 <h3>
                   Fundraise Details
                 </h3>
+                <Button
+                className="nav-link d-lg-block"
+                color="primary"
+                target="_blank"
+                href=""
+                onClick={raise}
+              >
+                <i className="" /> {details}
+              </Button>
               </Col>
             </Row>
             <Row>
@@ -100,7 +103,10 @@ export default function Dashboard(props) {
                         <ListGroupItem>Shege Story: {JSON.parse(localStorage.getItem('story'))}</ListGroupItem>
                         <ListGroupItem>Deadline: {JSON.parse(localStorage.getItem('deadline'))}</ListGroupItem>
                         <ListGroupItem>Creator: {JSON.parse(localStorage.getItem('creator'))}</ListGroupItem>
-                        <ListGroupItem>Picture: {JSON.parse(localStorage.getItem('picture'))}</ListGroupItem>
+                        <ListGroupItem>
+                        Picture: 
+                          <img src={localStorage.getItem('fileBase64')} alt="" />
+                          </ListGroupItem>
                         <ListGroupItem>Video: {JSON.parse(localStorage.getItem('video'))}</ListGroupItem>
                       </ListGroup>
                     </Row>

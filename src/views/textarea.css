@@ -1,11 +1,12 @@
 
 .textarea{
     width: inherit;
-    height: 150px;
+    height: 70px;
     padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid #ccc;
   }
   
 .rsvp {
