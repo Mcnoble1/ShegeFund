@@ -28,6 +28,9 @@ Decentralized Fundraising Platform That our Shege may be well Funded
 Saving Circle (AJO)
 Create and join automated saving circles with your friends (coming soon).
 
+# Todo
+- Users being able to add pictures and upload a crowdfunding video
+
 ### Demo Video
 
 ### Getting Started with ShegeFund locally
