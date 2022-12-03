@@ -15,20 +15,20 @@ Savings Circle - AJO (Coming soon).
 # Description
 Decentralized Fundraising Platform That our Shege may be well Funded
 
-Create Funding Cause (Fundraiser)
-Connect your metamask wallet to create a cause
-Fill in your fundingraising details and make your story compelling
-Share your contract information with people to make donations
+### Create Funding Cause (Fundraiser)
+- Connect your metamask wallet to create a cause
+- Fill in your fundingraising details and make your story compelling
+- Share your contract information with people to make donations
 
-Donate to a Cause (Donor)
-Connect your wallet
-Paste in the contract information to attach
-Donate to the cause. 
+### Donate to a Cause (Donor)
+- Connect your wallet
+- Paste in the contract information to attach
+- Donate to the cause. 
 
 Saving Circle (AJO)
 Create and join automated saving circles with your friends (coming soon).
 
-### Demo Video
+# Demo Video
 
 # Getting Started with ShegeFund locally
 
