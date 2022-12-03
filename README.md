@@ -28,15 +28,15 @@ Decentralized Fundraising Platform That our Shege may be well Funded
 Saving Circle (AJO)
 Create and join automated saving circles with your friends (coming soon).
 
-# Demo Video
+### Demo Video
 
-# Getting Started with ShegeFund locally
+### Getting Started with ShegeFund locally
 
-### Clone the repo `git clone`
+Clone the repo `git clone`
 
-### Navigate into the project folder `cd ShegeFund`
+Navigate into the project folder `cd ShegeFund`
 
-### `npm start`
+`npm start`
 
 This runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -44,7 +44,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm run build`
+`npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
