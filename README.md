@@ -1,5 +1,5 @@
 # ShegeFund
-A Decentralized Fundraising/Crowdfunding Platform deployed on the Polygon Testnet. Users can create fundraising causes and people can make donations to different causes inasmuch as they have the contract information of those causes. Our platform charges 5% of every donation made to a cause.
+A Decentralized Fundraising/Crowdfunding Platform deployed on the Polygon Testnet. Users can create fundraising causes and people can make donations to different causes inasmuch as they have the contract information of those causes. The funds are transferred from the contract to the fundraiser when the fund target set is reached. Our platform charges 5% of every donation made to a cause.
 
 # Tech Stack
 - Reach Lang
