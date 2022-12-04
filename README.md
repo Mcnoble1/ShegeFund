@@ -52,5 +52,11 @@ You may also see any lint errors in the console.
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
+### File Structure
+- The smart contracts are written in reach and is located in the `reach folder` named as `index.rsh` file
+`cd ShegeFund/src/reach` 
+- It is compiled down to `index.main.mjs` and the solidity equivalent `index,main.sol` which are both located in the `build` folder
+`cd ShegeFund/src/reach/build`
+
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
