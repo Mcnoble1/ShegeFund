@@ -103,11 +103,10 @@ export default function Dashboard(props) {
                         <ListGroupItem>Shege Story: {JSON.parse(localStorage.getItem('story'))}</ListGroupItem>
                         <ListGroupItem>Deadline: {JSON.parse(localStorage.getItem('deadline'))}</ListGroupItem>
                         <ListGroupItem>Creator: {JSON.parse(localStorage.getItem('creator'))}</ListGroupItem>
-                        <ListGroupItem>
-                        Picture: 
+                        {/* <ListGroupItem>
+                        Picture:  
                           <img src={localStorage.getItem('fileBase64')} alt="" />
-                          </ListGroupItem>
-                        <ListGroupItem>Video: {JSON.parse(localStorage.getItem('video'))}</ListGroupItem>
+                          </ListGroupItem> */}
                       </ListGroup>
                     </Row>
                   </CardBody>

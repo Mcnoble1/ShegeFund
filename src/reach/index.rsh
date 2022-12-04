@@ -9,10 +9,10 @@
 const FundInfo = Object({
     target: UInt,
     deadline: UInt,
-    creator: Bytes(64),
-    title: Bytes(64),
-    story: Bytes(64),
-    picture: Bytes(256),
+    creator: Bytes(256),
+    title: Bytes(256),
+    story: Bytes(256),
+    // picture: Bytes(256),
 })
 
 
@@ -49,7 +49,7 @@ export const main = Reach.App(() => {
         const fundInfo = declassify(interact.createFundraiser);
     })
     Fundraiser.publish(platformAddress, fundInfo);
-    const {target, deadline, creator, title, story, picture} = fundInfo;
+    const {target, deadline, creator, title, story} = fundInfo;
     Info.details.set(fundInfo);
 
     // enforce(thisConsensusTime() < deadline, 'too late');

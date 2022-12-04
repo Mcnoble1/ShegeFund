@@ -24,7 +24,7 @@ import {
 const stdlib = loadStdlib();
 
 
-export default function MakeRsvp(props) {
+export default function Attach(props) {
   const { handleSubmit } = useForm();
 
 
@@ -56,14 +56,13 @@ export default function MakeRsvp(props) {
     const { creator } = await ctc.unsafeViews.Info.details();
     const { title } = await ctc.unsafeViews.Info.details();
     const { story } = await ctc.unsafeViews.Info.details();
-    const { picture } = await ctc.unsafeViews.Info.details();
+    // const { picture } = await ctc.unsafeViews.Info.details();
 
     localStorage.setItem('target', JSON.stringify(stdlib.formatCurrency(stdlib.parseCurrency(target))));
     localStorage.setItem('deadline', JSON.stringify(stdlib.formatCurrency(stdlib.parseCurrency(deadline))));
     localStorage.setItem('creator', JSON.stringify(creator));
     localStorage.setItem('title', JSON.stringify(title));
     localStorage.setItem('story', JSON.stringify(story));
-    localStorage.setItem('picture', JSON.stringify(picture));
     localStorage.setItem('info', JSON.stringify(info));
 
       navigate("/donate")
