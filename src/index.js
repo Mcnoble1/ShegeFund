@@ -38,7 +38,7 @@ root.render(
       <Route path="/home" element={<LandingPage />}></Route>
       <Route path="/donate" element={<Donate />}></Route>
       <Route path="/dashboard" element={<Dashboard/>}></Route>
-      <Route path="/createEvent" element={<CreateCause />}></Route>
+      <Route path="/createCause" element={<CreateCause />}></Route>
       <Route path="/Attach" element={<Attach />}></Route>
       {/* <Navigate from="/" to="/home" /> */}
       <Route path="/" element={<Navigate replace to="/home" />} />
