@@ -28,7 +28,7 @@ import {
 const stdlib = loadStdlib();
 
 
-export default function ProfilePage(props) {
+export default function Donate(props) {
   const { handleSubmit } = useForm();
 
 
@@ -50,14 +50,14 @@ export default function ProfilePage(props) {
       try { 
         const acc = await account();
         const ctc = acc.contract(backend, info);  
+        const myGasLimit = 7000000;
+        acc.setGasLimit(myGasLimit);  
         setMiniModal1(false);
         setMiniModal(true);
 
-        const myGasLimit = 7000000;
-        acc.setGasLimit(myGasLimit);  
+        
 
        await ctc.apis.Donor.donate(stdlib.parseCurrency(amount));
-       console.log(ctc);
         setMiniModal(false);
        setMiniModal1(false);
        setMiniModal2(true);
@@ -107,9 +107,9 @@ export default function ProfilePage(props) {
                         <ListGroupItem>Shege Story: {JSON.parse(localStorage.getItem('story'))}</ListGroupItem>
                         <ListGroupItem>Deadline: {JSON.parse(localStorage.getItem('deadline'))}</ListGroupItem>
                         <ListGroupItem>Creator: {JSON.parse(localStorage.getItem('creator'))}</ListGroupItem>
-                        <ListGroupItem>Picture
+                        {/* <ListGroupItem>Picture
                         <img src={localStorage.getItem('picture')} alt="" className="img-raised" />
-                        </ListGroupItem>
+                        </ListGroupItem> */}
                       </ListGroup>
                     </Row>
                   </CardBody>

@@ -27,9 +27,9 @@ import {
 const stdlib = loadStdlib();
 
 
-export default function CreateEvent(props) {
+export default function CreateCause(props) {
 
-    const platformAddress = "0xA3113a97DBb1FEaD4E1810583F00022f3b1F35c4";
+    const platformAddress = "0x9BdD381ea7cB870c98DC516c65C2345B510E342D";
 
     const { handleSubmit } = useForm();
     const navigate = useNavigate();
@@ -42,32 +42,31 @@ export default function CreateEvent(props) {
     const [creator, setCreator] = useState("");
     const [title, setTitle] = useState("");
     const [story, setStory] = useState("");
-    const [picture, setPicture] = useState("")
+    // const [picture, setPicture] = useState("")
 
     const [miniModal1, setMiniModal1] = React.useState(false);
     const [miniModal2, setMiniModal2] = React.useState(false);
 
-    const imageUpload = (e) => {
-      const file = e.target.files[0];
-      getBase64(file).then(base64 => {
-        localStorage["fileBase64"] = base64;
-        console.debug("file stored",base64);
-        // setPicture(base64);
-      });
-  };
+  //   const imageUpload = (e) => {
+  //     const file = e.target.files[0];
+  //     getBase64(file).then(base64 => {
+  //       localStorage["fileBase64"] = base64;
+  //       console.debug("file stored",base64);
+  //     });
+  // };
 
-  const getBase64 = (file) => {
-    return new Promise((resolve,reject) => {
-       const reader = new FileReader();
-       reader.onload = () => resolve(reader.result);
-       reader.onerror = error => reject(error);
-       reader.readAsDataURL(file);
-    });
-  }
+  // const getBase64 = (file) => {
+  //   return new Promise((resolve,reject) => {
+  //      const reader = new FileReader();
+  //      reader.onload = () => resolve(reader.result);
+  //      reader.onerror = error => reject(error);
+  //      reader.readAsDataURL(file);
+  //   });
+  // }
 
   let details;
 
-    details = {target, deadline, creator, title, story, picture};
+    details = {target, deadline, creator, title, story};
 
     async function deploy() {
 
@@ -78,11 +77,13 @@ export default function CreateEvent(props) {
       localStorage.setItem('creator', JSON.stringify(creator));
       localStorage.setItem('title', JSON.stringify(title));
       localStorage.setItem('story', JSON.stringify(story));
-      // localStorage.setItem('picture', picture);
 
       try{
         const acc = await account();
         const ctc = acc.contract(backend);
+        const myGasLimit = 7000000;
+        acc.setGasLimit(myGasLimit); 
+        
         setMiniModal2(true);
         const interact = {
           deadline: { ETH: 10, ALGO: 100, CFX: 1000 }[stdlib.connector],
@@ -107,8 +108,7 @@ export default function CreateEvent(props) {
 
         backend.Fundraiser(ctc, interact);
         const ctcInfoStr = JSON.stringify(await ctc.getInfo(), null, 2);
-        // let ctcBalance = stdlib.balance();
-        // console.log(ctcBalance);
+       
         localStorage.setItem('info', JSON.stringify(ctcInfoStr));
         navigate("/dashboard");
 
@@ -188,17 +188,15 @@ export default function CreateEvent(props) {
                           </FormGroup>
                         </Col>
                       </Row>
-                      <Row>
+                      {/* <Row>
                         <Col md="12">
-                          {/* <FormGroup> */}
                             <label>Picture</label>
                             <Input  type="file"
                             required
                             onChange={imageUpload}
                              /> 
-                          {/* </FormGroup> */}
                         </Col>
-                      </Row>
+                      </Row> */}
                       <Button
                         className="my-4" color="primary" type="submit" 
                       >

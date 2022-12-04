@@ -57,10 +57,10 @@ export default function Header() {
                   That our Shege may be well Funded
                 </h3>
                 <div className="btn-wrapper pt-3">
-                  <Button className="btn-wrapper btn-simple" color="success"  to="/createEvent" tag={Link}>
+                  <Button className="btn-wrapper btn-simple" color="success"  to="/create" tag={Link}>
                     Create Fundraiser
                   </Button>
-                  <Button className="btn-wrapper btn-simple" color="primary"  to="/makeRsvp" tag={Link}>
+                  <Button className="btn-wrapper btn-simple" color="primary"  to="/attach" tag={Link}>
                     Fund a Cause
                   </Button>
                 </div>

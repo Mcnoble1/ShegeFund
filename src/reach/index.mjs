@@ -34,12 +34,12 @@ let fundInfo = null;
     'Tell us your shege story',
     (x => x)
   );
-  const picture = await ask.ask(
-    'Attach your shege picture',
-    (x => x)
-  );
+  // const picture = await ask.ask(
+  //   'Attach your shege picture',
+  //   (x => x)
+  // );
 
-  fundInfo = { target, deadline, creator, title, story, picture };
+  fundInfo = { target, deadline, creator, title, story };
 
 const isFundraiser = await ask.ask(
   'Are you a Fundraiser',
@@ -66,7 +66,7 @@ console.log(`Creating the Fundraising Campaign`);
 
 const startFunding = async () => {
     const runFunding = async(who) => {
-      // const { target, deadline, story, picture } = fundInfo;
+      // const { target, deadline, story} = fundInfo;
   
       // const acc = await stdlib.newTestAccount(stdlib.parseCurrency(1000));
 
@@ -86,7 +86,7 @@ const startFunding = async () => {
         const { creator } = await ctc.unsafeViews.Info.details();
         const { title } = await ctc.unsafeViews.Info.details();
         const { story } = await ctc.unsafeViews.Info.details();
-        const { picture } = await ctc.unsafeViews.Info.details();
+        // const { picture } = await ctc.unsafeViews.Info.details();
   
         console.log(`FundRaise Details:
                     target: ${stdlib.formatCurrency(target)} ${stdlib.standardUnit}
@@ -94,7 +94,6 @@ const startFunding = async () => {
                     creator: ${creator}
                     title: ${title}
                     story: ${story}
-                    picture: ${picture}
                     ` 
                   );
       // } catch (e) {
