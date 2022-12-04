@@ -3,8 +3,8 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+
 'reach 0.1';
-// 'use strict';
 
 const FundInfo = Object({
     target: UInt,
@@ -26,10 +26,6 @@ export const main = Reach.App(() => {
         thankDonor: Fun([Address], Null),
         platformAddr: Address,
     });
-
-    // const Platform = Participant('Platform', {
-    //     addr: Address,
-    // });
 
     // The Donor interact interface for making donations
     const Donor = API('Donor', {
@@ -68,7 +64,7 @@ export const main = Reach.App(() => {
             check(!done, "Fundraising started");
             check(amt > 0, "Must donate more than 0");
             return [amt, (ret) => {
-                enforce(thisConsensusTime() < deadline, "donation period over"); 
+                // enforce(thisConsensusTime() < deadline, "donation period over"); 
                  Donors[this] = amt;
                 ret(null);
                 Fundraiser.interact.seeDonation(this, amt);
