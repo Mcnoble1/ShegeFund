@@ -32,7 +32,7 @@ Create and join automated saving circles with your friends (coming soon).
 - Users being able to add pictures and upload a crowdfunding video
 
 # Demo Video 
- [ShegeFund] (https://www.youtube.com/watch?v=PLJduXuj-GA)
+ [ShegeFund](https://www.youtube.com/watch?v=PLJduXuj-GA)
 
 
 ### Getting Started with ShegeFund locally
