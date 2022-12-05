@@ -31,7 +31,9 @@ Create and join automated saving circles with your friends (coming soon).
 # Todo
 - Users being able to add pictures and upload a crowdfunding video
 
-### Demo Video
+# Demo Video 
+ [ShegeFund] (https://www.youtube.com/watch?v=PLJduXuj-GA)
+
 
 ### Getting Started with ShegeFund locally
 
@@ -43,6 +45,10 @@ Navigate into the project folder `cd ShegeFund`
 
 This runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+
+https://user-images.githubusercontent.com/40045755/205604153-d5657181-d7ba-42c5-bd6e-1c3b9b85a25c.mp4
+
 
 `npm run build`
 
